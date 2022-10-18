@@ -7,7 +7,6 @@ import UserCollection from '../user/collection';
  */
 class FriendCollection {
   /**
-   * Add a freet to the collection
    *
    * @param {string} 
    * @param {string} 
