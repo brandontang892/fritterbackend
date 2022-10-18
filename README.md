@@ -313,3 +313,76 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
+
+
+#### `POST /api/friends` - Create new friendship between User A and User B
+
+**Body**
+
+- `User A` _{string}_ - User A's Option Id
+- `User B` _{string}_ - User B's Option Id 
+
+
+#### `PUT /api/friends` - Update friendship status between User A and User B
+
+**Body**
+
+- `User B` _{string}_ - User B's Option Id 
+- `Friendship Status` _{string}_ - One of "FOLLOWER", "FOLLOWING", "BLOCKED"
+
+
+#### `POST /api/local` - Create new localized Freet
+
+**Body**
+
+- `User A` _{string}_ - User A's Option Id
+- `User B` _{string}_ - User B's Option Id 
+
+
+#### `PUT /api/friends` - Update friendship status between User A and User B
+
+**Body**
+
+- `User B` _{string}_ - User B's Option Id 
+- `Friendship Status` _{string}_ - One of "FOLLOWER", "FOLLOWING", "BLOCKED"
+
+
+#### `GET /api/local` - Get all the localized freets
+
+**Returns**
+
+- An array of all localized freets sorted in descending order by date modified
+
+#### `GET /api/local?author=USERNAME` - Get localized freets by author
+
+**Returns**
+
+- An array of localized freets created by user with username `author`
+
+**Throws**
+
+- `400` if `author` is not given
+- `404` if `author` is not a recognized username of any user
+
+#### `POST /api/local` - Create a new localized freet
+
+**Body**
+
+- `content` _{string}_ - The content of the freet
+
+
+#### `GET /api/anonymous` - Get all the anonymous freets
+
+**Returns**
+
+- An array of all anonymous freets sorted in descending order by date modified
+
+
+#### `POST /api/anonymous` - Create a new anomymous freet
+
+**Body**
+
+- `content` _{string}_ - The content of the freet
+
+
+
