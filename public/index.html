@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
   <script src="/scripts/freet.js"></script>
   <script src="/scripts/user.js"></script>
+  <script src="/scripts/friend.js"></script>
   <script src="/scripts/index.js"></script>
 </head>
 
@@ -116,6 +117,30 @@
             <input id="id" name="id">
           </div>
           <input type="submit" value="Delete Freet">
+        </form>
+
+        <form id="add-friend">
+          <h3>Add Friend</h3>
+          <div>
+            <label for="UserB">UserB:</label>
+            <input id="UserB" name="UserB">
+              <label for="status">Status:</label>
+            <input id="status" name="status">
+          </div>
+          <input type="submit" value="Add Friend">
+        </form>
+
+        <form id="update-friend">
+          <h3>Update Friend Status</h3>
+          <div>
+            <label for="id">Friend ID:</label>
+            <input id="id" name="id">
+          </div>
+          <div>
+            <label for="status">New Status:</label>
+            <textarea id="status" name="status"></textarea>
+          </div>
+          <input type="submit" value="Edit Friend Status">
         </form>
       </div>
     </section>

@@ -38,7 +38,9 @@ const formsAndHandlers = {
   'view-freets-by-author': viewFreetsByAuthor,
   'create-freet': createFreet,
   'edit-freet': editFreet,
-  'delete-freet': deleteFreet
+  'delete-freet': deleteFreet,
+  'add-friend': addFriend,
+  'update-friend': updateFriend,
 };
 
 // Attach handlers to forms
@@ -48,6 +50,7 @@ function init() {
     form.onsubmit = e => {
       e.preventDefault();
       const formData = new FormData(form);
+      console.log(Object.fromEntries(formData.entries()));
       handler(Object.fromEntries(formData.entries()));
       return false; // Don't reload page
     };
