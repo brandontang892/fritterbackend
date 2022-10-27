@@ -11,6 +11,14 @@ type FreetResponse = {
   dateModified: string;
 };
 
+type AnonFreetResponse = {
+  _id: string;
+  hidden_author: string;
+  dateCreated: string;
+  content: string;
+  dateModified: string;
+};
+
 /**
  * Encode a date as an unambiguous string
  *
@@ -43,6 +51,32 @@ const constructFreetResponse = (freet: HydratedDocument<Freet>): FreetResponse =
   };
 };
 
+/**
+ * Transform a raw Freet object from the database into an object
+ * with all the information needed by the frontend
+ *
+ * @param {HydratedDocument<Freet>} freet - A freet
+ * @returns {AnonFreetResponse} - The freet object formatted for the frontend
+ */
+const constructAnonFreetResponse = (freet: HydratedDocument<Freet>): AnonFreetResponse => {
+  const freetCopy: PopulatedFreet = {
+    ...freet.toObject({
+      versionKey: false // Cosmetics; prevents returning of __v property
+    })
+  };
+  const {username} = freetCopy.authorId;
+  delete freetCopy.authorId;
+  return {
+    ...freetCopy,
+    _id: freetCopy._id.toString(),
+    hidden_author: "USER IS ANONYMOUS",
+    dateCreated: formatDate(freet.dateCreated),
+    dateModified: formatDate(freet.dateModified)
+  };
+};
+
+
 export {
-  constructFreetResponse
+  constructFreetResponse,
+  constructAnonFreetResponse
 };

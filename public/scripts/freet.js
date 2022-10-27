@@ -34,3 +34,15 @@ function deleteFreet(fields) {
     .then(showResponse)
     .catch(showResponse);
 }
+
+function createAnonFreet(fields) {
+  fetch('/api/freets/anonymous', {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function viewAllAnonFreets(fields) {
+  fetch('/api/freets/:anon')
+    .then(showResponse)
+    .catch(showResponse);
+}
