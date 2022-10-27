@@ -26,7 +26,9 @@ class FreetCollection {
       dateCreated: date,
       content,
       dateModified: date,
-      anonymous: "FALSE"
+      anonymous: "FALSE",
+      local: "FALSE",
+      city: ""
     });
     await freet.save(); // Saves freet to MongoDB
     return freet.populate('authorId');
@@ -98,6 +100,8 @@ class FreetCollection {
     await FreetModel.deleteMany({authorId});
   }
 
+  // ANONYMOUS ACTIONS
+
   /**
    * Add a freet to the collection
    *
@@ -112,7 +116,8 @@ class FreetCollection {
       dateCreated: date,
       content,
       dateModified: date,
-      anonymous: "TRUE"
+      anonymous: "TRUE",
+      local: "FALSE"
     });
     await freet.save(); // Saves freet to MongoDB
     return freet.populate('authorId');
@@ -130,6 +135,44 @@ class FreetCollection {
     return FreetModel.find({anonymous: "TRUE"}).sort({dateModified: -1}).populate('authorId');
   }
 
+  // LOCAL ACTIONS
+
+  /**
+   * Add a local freet to the collection, visible to public and people in local area
+   *
+   * @param {string} authorId - The id of the author of the freet
+   * @param {string} content - The id of the content of the freet
+   * @return {Promise<HydratedDocument<Freet>>} - The newly created freet
+   */
+  static async addLocalOne(authorId: Types.ObjectId | string, content: string, city: string): Promise<HydratedDocument<Freet>> {
+    // Access city of this user
+    const user = await UserCollection.findOneByUsername(authorId.toString())
+    const date = new Date();
+    const freet = new FreetModel({
+      authorId,
+      dateCreated: date,
+      content,
+      dateModified: date,
+      anonymous: "FALSE",
+      local: "TRUE",
+      city: city
+    });
+    await freet.save(); // Saves freet to MongoDB
+    return freet.populate('authorId');
+  }
+
+
+  /**
+   * Get all local freets in the database
+   * @param {string} authorId - The id of the author of the freet
+   * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
+   */
+
+  static async findAllLocal(authorId: Types.ObjectId | string): Promise<Array<HydratedDocument<Freet>>> {
+    const user = await UserCollection.findOneByUsername(authorId.toString())
+    // Retrieves public freets in user's city and sorts them from most to least recent
+    return FreetModel.find({local: "TRUE"}).sort({dateModified: -1}).populate('authorId');
+  }
 }
 
 

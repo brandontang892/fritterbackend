@@ -66,6 +66,24 @@ router.get(
 );
 
 
+ /**
+ * Get all the local freets (same city as you)
+ *
+ * @name GET /api/freets/:local
+ *
+ * @return {FreetResponse[]} - A list of all the anonymous freets sorted in descending
+ *                      order by date modified
+ */
+router.get(
+  '/:local',
+  async (req: Request, res: Response) => {
+    const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
+    const localAuthorFreets = await FreetCollection.findAllLocal(userId);
+    const response = localAuthorFreets.map(util.constructFreetResponse);
+    res.status(200).json(response);
+  }
+);
+
 
 /**
  * Create a new freet.
@@ -127,6 +145,38 @@ router.post(
     });
   }
 );
+
+
+ /**
+ * Create a new local freet.
+ *
+ * @name POST /api/freets/local
+ *
+ * @param {string} content - The content of the freet
+ * @return {FreetResponse} - The created freet
+ * @throws {403} - If the user is not logged in
+ * @throws {400} - If the freet content is empty or a stream of empty spaces
+ * @throws {413} - If the freet content is more than 140 characters long
+ */
+
+router.post(
+  '/local',
+   [
+    userValidator.isUserLoggedIn,
+    freetValidator.isValidFreetContent,
+    freetValidator.isValidFreetContent,
+  ],
+  async (req: Request, res: Response) => {
+    const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
+    const freet = await FreetCollection.addLocalOne(userId, req.body.content, req.body.city);
+
+    res.status(201).json({
+      message: 'Your local freet was created successfully.',
+      freet: util.constructFreetResponse(freet)
+    });
+  }
+);
+
 
 /**
  * Delete a freet

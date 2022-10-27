@@ -9,6 +9,9 @@ type FreetResponse = {
   dateCreated: string;
   content: string;
   dateModified: string;
+  anonymous: string;
+  local: string;
+  city: string;
 };
 
 type AnonFreetResponse = {
@@ -17,6 +20,9 @@ type AnonFreetResponse = {
   dateCreated: string;
   content: string;
   dateModified: string;
+  anonymous: string;
+  local: string;
+  city: string;
 };
 
 /**
@@ -46,6 +52,7 @@ const constructFreetResponse = (freet: HydratedDocument<Freet>): FreetResponse =
     ...freetCopy,
     _id: freetCopy._id.toString(),
     author: username,
+    city: freet.city,
     dateCreated: formatDate(freet.dateCreated),
     dateModified: formatDate(freet.dateModified)
   };

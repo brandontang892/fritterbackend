@@ -46,3 +46,15 @@ function viewAllAnonFreets(fields) {
     .then(showResponse)
     .catch(showResponse);
 }
+
+function createLocalFreet(fields) {
+  fetch('/api/freets/local', {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function viewAllLocalFreets(fields) {
+  fetch('/api/freets/:local')
+    .then(showResponse)
+    .catch(showResponse);
+}
